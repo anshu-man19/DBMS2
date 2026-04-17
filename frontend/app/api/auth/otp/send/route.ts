@@ -13,16 +13,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Email is required" }, { status: 400 });
   }
 
-  const { otp, ttlSeconds } = issueOtp(email, 300);
+  const { otp, ttlSeconds, token } = issueOtp(email, 300);
   const expiresInMinutes = Math.ceil(ttlSeconds / 60);
 
   if (!isMailConfigured()) {
-    return NextResponse.json({
-      ok: true,
-      expiresIn: ttlSeconds,
-      otp,
-      message: "Development OTP generated locally."
-    });
+    return NextResponse.json(
+      {
+        ok: false,
+        message:
+          "Email delivery is not configured. Set SMTP_* values in frontend/.env.local to send OTP emails."
+      },
+      { status: 500 },
+    );
   }
 
   try {
@@ -40,6 +42,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     ok: true,
-    expiresIn: ttlSeconds
+    expiresIn: ttlSeconds,
+    otpToken: token
   });
 }

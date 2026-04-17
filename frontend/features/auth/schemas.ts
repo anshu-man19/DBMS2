@@ -4,6 +4,7 @@ export const registrationSchema = z
   .object({
     email: z.string().email("Enter a valid company email"),
     otp: z.string().length(6, "OTP must be 6 digits"),
+    companyName: z.string().min(2, "Company name is required"),
     recruiterName: z.string().min(2, "Recruiter name is required"),
     designation: z.string().min(2, "Designation is required"),
     contactNumber: z.string().min(10, "Contact number is required"),

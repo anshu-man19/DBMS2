@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -133,6 +133,7 @@ export function JnfBuilder() {
   const [activeTab, setActiveTab] = useState(
     Number.isNaN(requestedTab) ? 0 : requestedTab,
   );
+  const isSavingDraftRef = useRef(false);
 
   const form = useForm<JnfFormValues>({
     resolver: zodResolver(jnfSchema),
@@ -171,35 +172,47 @@ export function JnfBuilder() {
   }, [requestedTab]);
 
   const persistDraft = async () => {
+    if (isSavingDraftRef.current) {
+      return getValues();
+    }
+
+    isSavingDraftRef.current = true;
     const current = getValues();
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
 
     const token = session?.user?.apiToken;
-    if (token) {
-      const savedId = Number(window.localStorage.getItem(STORAGE_ID_KEY));
-      const draftId = Number.isFinite(savedId) && savedId > 0 ? savedId : null;
-      const canCreateBackendDraft =
-        draftId !== null || current.jobProfile.designation.trim().length > 0;
+    if (!token) {
+      enqueueSnackbar("Session expired. Log in again to sync your draft with the backend.", {
+        variant: "warning",
+      });
+      isSavingDraftRef.current = false;
+      return current;
+    }
 
-      if (canCreateBackendDraft) {
-        try {
-          const resolvedId = await saveJnfDraft({
-            token,
-            values: current,
-            draftId,
-          });
-          window.localStorage.setItem(STORAGE_ID_KEY, String(resolvedId));
-        } catch (error) {
-          enqueueSnackbar(
-            error instanceof Error
-              ? error.message
-              : "Draft saved locally, but the backend could not accept it yet.",
-            { variant: "warning" },
-          );
-        }
+    const savedId = Number(window.localStorage.getItem(STORAGE_ID_KEY));
+    const draftId = Number.isFinite(savedId) && savedId > 0 ? savedId : null;
+    const canCreateBackendDraft =
+      draftId !== null || current.jobProfile.designation.trim().length > 0;
+
+    if (canCreateBackendDraft) {
+      try {
+        const resolvedId = await saveJnfDraft({
+          token,
+          values: current,
+          draftId,
+        });
+        window.localStorage.setItem(STORAGE_ID_KEY, String(resolvedId));
+      } catch (error) {
+        enqueueSnackbar(
+          error instanceof Error
+            ? error.message
+            : "Draft saved locally, but the backend could not accept it yet.",
+          { variant: "warning" },
+        );
       }
     }
 
+    isSavingDraftRef.current = false;
     return current;
   };
 

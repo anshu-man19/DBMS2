@@ -28,6 +28,7 @@ import { useCountdown } from "@/hooks/useCountdown";
 const stepFields: Array<Array<keyof RegistrationFormValues>> = [
   ["email", "otp"],
   [
+    "companyName",
     "recruiterName",
     "designation",
     "contactNumber",
@@ -45,9 +46,10 @@ export function RegistrationWizard() {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  const [otpToken, setOtpToken] = useState<string | null>(null);
   const countdown = useCountdown(60, otpSent);
 
-  const { control, handleSubmit, trigger, getValues, setValue } =
+  const { control, handleSubmit, trigger, getValues } =
     useForm<RegistrationFormValues>({
       resolver: zodResolver(registrationSchema),
       defaultValues: registrationDefaultValues,
@@ -81,7 +83,7 @@ export function RegistrationWizard() {
       const payload = (await response.json().catch(() => null)) as {
         ok?: boolean;
         message?: string;
-        otp?: string;
+        otpToken?: string;
       } | null;
 
       if (!response.ok || !payload?.ok) {
@@ -93,15 +95,10 @@ export function RegistrationWizard() {
       }
 
       setOtpSent(true);
-      if (payload?.otp) {
-        setValue("otp", payload.otp);
-      }
-      enqueueSnackbar(
-        payload?.otp
-          ? `Development OTP: ${payload.otp}`
-          : "OTP sent to your company email. Use the received OTP to continue.",
-        { variant: "success" },
-      );
+      setOtpToken(payload?.otpToken ?? null);
+      enqueueSnackbar("OTP sent to your company email. Enter it to continue.", {
+        variant: "success",
+      });
     } catch {
       enqueueSnackbar("Failed to send OTP. Please try again.", {
         variant: "error",
@@ -117,6 +114,41 @@ export function RegistrationWizard() {
       return;
     }
 
+    if (activeStep === 0) {
+      const values = getValues();
+      if (!otpToken) {
+        enqueueSnackbar("Please request OTP first.", { variant: "warning" });
+        return;
+      }
+
+      const verifyResponse = await fetch("/api/auth/otp/verify", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email: values.email,
+          otp: values.otp,
+          otpToken,
+        }),
+      }).catch(() => null);
+
+      const verifyPayload = (await verifyResponse
+        ?.json()
+        .catch(() => null)) as {
+        ok?: boolean;
+        valid?: boolean;
+        message?: string;
+      } | null;
+
+      if (!verifyResponse?.ok || !verifyPayload?.ok || !verifyPayload.valid) {
+        enqueueSnackbar(
+          verifyPayload?.message ??
+            "Invalid OTP. Enter the OTP sent to your email.",
+          { variant: "error" },
+        );
+        return;
+      }
+    }
+
     setActiveStep((current) => current + 1);
   };
 
@@ -125,7 +157,10 @@ export function RegistrationWizard() {
     try {
       const registerResponse = await fetch("/api/auth/register", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "x-otp-token": otpToken ?? "",
+        },
         body: JSON.stringify(values),
       });
       const registerPayload = (await registerResponse
@@ -249,6 +284,14 @@ export function RegistrationWizard() {
 
           {activeStep === 1 ? (
             <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <FormTextField<RegistrationFormValues>
+                  name="companyName"
+                  control={control}
+                  label="Company Name"
+                  fullWidth
+                />
+              </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
                 <FormTextField<RegistrationFormValues>
                   name="recruiterName"

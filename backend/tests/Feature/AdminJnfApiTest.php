@@ -91,7 +91,7 @@ class AdminJnfApiTest extends TestCase
         ]);
     }
 
-    public function test_admin_can_open_jnf_for_edit_only_once(): void
+    public function test_admin_can_open_jnf_for_edit_multiple_times(): void
     {
         $token = Str::random(80);
         User::query()->create([
@@ -122,7 +122,9 @@ class AdminJnfApiTest extends TestCase
             ->postJson('/api/v1/admin/jnfs/'.$jnf->jnf_id.'/request-edit', [
                 'notes' => 'Please correct one more thing.',
             ])
-            ->assertStatus(409);
+            ->assertOk()
+            ->assertJsonPath('data.status', 'open_edit')
+            ->assertJsonPath('data.edit_request_count', 2);
     }
 
     private function createCompany(): Company

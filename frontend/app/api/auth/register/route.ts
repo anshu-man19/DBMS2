@@ -14,8 +14,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Please enter valid registration details." }, { status: 400 });
   }
 
+  const otpToken = request.headers.get("x-otp-token");
+  if (!otpToken) {
+    return NextResponse.json({ ok: false, message: "OTP token missing. Request a new OTP." }, { status: 400 });
+  }
+
   const values = parsed.data;
-  const otpValid = verifyOtp(values.email, values.otp);
+  const otpValid = verifyOtp(values.email, values.otp, otpToken);
   if (!otpValid) {
     return NextResponse.json({ ok: false, message: "Invalid or expired OTP. Please request a new OTP." }, { status: 400 });
   }
@@ -32,7 +37,7 @@ export async function POST(request: Request) {
         password: values.password,
         password_confirmation: values.password,
         name: values.recruiterName,
-        company_name: values.recruiterName,
+        company_name: values.companyName,
         website: null
       })
     });
@@ -54,7 +59,7 @@ export async function POST(request: Request) {
       recruiter: {
         id: String(payload.user.user_id ?? values.email),
         email: payload.user.email ?? values.email,
-        recruiterName: payload.company?.company_name ?? values.recruiterName
+        recruiterName: values.recruiterName
       }
     });
   } catch (error) {
@@ -62,4 +67,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message }, { status: 400 });
   }
 }
-

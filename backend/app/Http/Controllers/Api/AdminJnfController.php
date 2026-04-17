@@ -189,8 +189,7 @@ class AdminJnfController extends Controller
 
     private function openForEdit(Model $submission, string $type, string $notes): void
     {
-        abort_if((int) $submission->edit_request_count >= 1, 409, 'This submission has already been opened for edit once.');
-
+        $fromStatus = $submission->status;
         $submission->update([
             'status' => 'open_edit',
             'edit_request_notes' => $notes,
@@ -200,7 +199,7 @@ class AdminJnfController extends Controller
 
         $submission->loadMissing('company.user');
 
-        $this->notifications->logStatusChange($type, $submission, request()->user(), $submission->getOriginal('status'), 'open_edit', $notes);
+        $this->notifications->logStatusChange($type, $submission, request()->user(), $fromStatus, 'open_edit', $notes);
         $this->notifications->notifyUser(
             $submission->company->user,
             strtoupper($type).' opened for edit',
