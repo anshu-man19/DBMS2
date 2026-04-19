@@ -238,7 +238,7 @@ export function InfBuilder() {
     router.push(`/inf/preview?mode=${mode}`);
   };
 
-  const handleTabChange = async (_: React.SyntheticEvent, nextTab: number) => {
+  const handleTabChange = async (nextTab: number) => {
     await persistDraft();
     enqueueSnackbar(`${infTabs[activeTab]} auto-saved`, { variant: "success" });
     setActiveTab(nextTab);
@@ -333,7 +333,7 @@ export function InfBuilder() {
           <CardContent sx={{ p: 0 }}>
             <Tabs
               value={activeTab}
-              onChange={handleTabChange}
+              onChange={(_, nextTab) => handleTabChange(nextTab)}
               variant="scrollable"
               scrollButtons="auto"
             >
@@ -376,8 +376,8 @@ export function InfBuilder() {
               <DeclarationTab
                 control={control}
                 values={watched}
-                onOpenDedicatedPreview={() => openPreview("dedicated")}
-                onReviewBeforeSubmit={() => openPreview("review")}
+                onSubmit={() => openPreview("review")}
+                formType="inf"
               />
             ) : null}
           </CardContent>

@@ -106,7 +106,7 @@ export function DashboardShell({ title, action, children }: Props) {
           }
         }}
       >
-        <Box p={3} borderBottom="1px solid rgba(31, 107, 45, 0.12)">
+        <Box p={3} borderBottom="1px solid rgba(106, 27, 154, 0.12)">
           <Typography variant="h6" fontWeight={900}>
             Notifications
           </Typography>

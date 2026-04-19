@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
@@ -38,6 +39,14 @@ const navItems = [
 export function PublicNavbar() {
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const filteredNavItems = navItems.filter(item => {
+    if (session?.user.role === "admin" && item.label === "Home") {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -82,7 +91,7 @@ export function PublicNavbar() {
 
           <NoSsr>
             <Stack direction="row" spacing={0.1} sx={{ display: { xs: "none", lg: "flex" } }}>
-              {navItems.map((item) =>
+              {filteredNavItems.map((item) =>
                 item.recruiter ? (
                   <Box key={item.label}>
                     <Button
@@ -123,9 +132,9 @@ export function PublicNavbar() {
                 minHeight: 40,
                 fontSize: "0.74rem",
                 lineHeight: 1.2,
-                bgcolor: "#dcecc7",
-                color: "#153b1b",
-                "&:hover": { bgcolor: "#bfd8a1" }
+                bgcolor: "secondary.main",
+                color: "secondary.contrastText",
+                "&:hover": { bgcolor: "secondary.dark" }
               }}
             >
               Recruit From IIT (ISM)
@@ -181,11 +190,11 @@ export function PublicNavbar() {
         anchor="right"
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        PaperProps={{ sx: { width: 300, p: 2.5, background: "linear-gradient(180deg, #f8fbf5, #eef7e9)" } }}
+        PaperProps={{ sx: { width: 300, p: 2.5, background: "linear-gradient(180deg, #f8f5ff, #f3e5f5)" } }}
       >
         <Stack spacing={1}>
           <Typography variant="h6">Navigation</Typography>
-          {navItems.map((item) =>
+          {filteredNavItems.map((item) =>
             item.recruiter ? (
               recruiterMenu.map((entry) => (
                 <Button

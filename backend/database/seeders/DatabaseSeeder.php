@@ -72,6 +72,91 @@ class DatabaseSeeder extends Seeder
             'job_description' => 'Analyze mining and industrial datasets, build dashboards, and ship predictive models.',
         ]);
 
+        // Add more dummy JNFs
+        $jnf2 = Jnf::query()->updateOrCreate([
+            'company_id' => $company->company_id,
+            'title' => 'Software Engineer',
+        ], [
+            'description' => 'Full stack development role.',
+            'status' => 'draft',
+        ]);
+
+        JobProfile::query()->updateOrCreate([
+            'jnf_id' => $jnf2->jnf_id,
+        ], [
+            'profile_name' => 'Tech Hiring 2026',
+            'job_designation' => 'Software Engineer',
+            'place_of_posting' => 'Mumbai',
+            'work_location_mode' => 'onsite',
+            'expected_hires' => 8,
+            'minimum_hires' => 3,
+            'required_skills' => ['JavaScript', 'React', 'Node.js'],
+            'job_description' => 'Develop web applications and maintain backend services.',
+        ]);
+
+        $jnf3 = Jnf::query()->updateOrCreate([
+            'company_id' => $company->company_id,
+            'title' => 'Mechanical Engineer',
+        ], [
+            'description' => 'Design and manufacturing role.',
+            'status' => 'approved',
+        ]);
+
+        JobProfile::query()->updateOrCreate([
+            'jnf_id' => $jnf3->jnf_id,
+        ], [
+            'profile_name' => 'Engineering Hiring 2026',
+            'job_designation' => 'Mechanical Engineer',
+            'place_of_posting' => 'Pune',
+            'work_location_mode' => 'hybrid',
+            'expected_hires' => 6,
+            'minimum_hires' => 2,
+            'required_skills' => ['CAD', 'SolidWorks', 'Thermodynamics'],
+            'job_description' => 'Design mechanical systems and oversee manufacturing processes.',
+        ]);
+
+        $jnf4 = Jnf::query()->updateOrCreate([
+            'company_id' => $company->company_id,
+            'title' => 'Marketing Specialist',
+        ], [
+            'description' => 'Digital marketing and brand management.',
+            'status' => 'submitted',
+        ]);
+
+        JobProfile::query()->updateOrCreate([
+            'jnf_id' => $jnf4->jnf_id,
+        ], [
+            'profile_name' => 'Marketing Hiring 2026',
+            'job_designation' => 'Marketing Specialist',
+            'place_of_posting' => 'Delhi',
+            'work_location_mode' => 'remote',
+            'expected_hires' => 4,
+            'minimum_hires' => 1,
+            'required_skills' => ['SEO', 'Content Marketing', 'Analytics'],
+            'job_description' => 'Manage digital campaigns and brand presence.',
+        ]);
+
+        $jnf5 = Jnf::query()->updateOrCreate([
+            'company_id' => $company->company_id,
+            'title' => 'Data Analyst',
+        ], [
+            'description' => 'Business intelligence and reporting.',
+            'status' => 'draft',
+        ]);
+
+        JobProfile::query()->updateOrCreate([
+            'jnf_id' => $jnf5->jnf_id,
+        ], [
+            'profile_name' => 'Analytics Hiring 2026',
+            'job_designation' => 'Data Analyst',
+            'place_of_posting' => 'Hyderabad',
+            'work_location_mode' => 'hybrid',
+            'expected_hires' => 5,
+            'minimum_hires' => 2,
+            'required_skills' => ['SQL', 'Tableau', 'Excel'],
+            'job_description' => 'Create reports and dashboards for business insights.',
+        ]);
+
         $inf = Inf::query()->updateOrCreate([
             'company_id' => $company->company_id,
             'title' => 'Summer Analytics Intern',

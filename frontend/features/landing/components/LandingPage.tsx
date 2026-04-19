@@ -49,7 +49,7 @@ export function LandingPage() {
         sx={{
           position: "relative",
           overflow: "hidden",
-          background: "linear-gradient(180deg, #f4faee 0%, #eef7e7 100%)"
+          background: "linear-gradient(180deg, #f8f5ff 0%, #f3e5f5 100%)"
         }}
       >
         <Box
@@ -115,16 +115,16 @@ export function LandingPage() {
                   width: { xs: "100%", md: "96%" },
                   ml: { md: "auto" },
                   overflow: "hidden",
-                  background: "#edf5e7",
-                  border: "1px solid rgba(31,107,45,0.08)",
-                  boxShadow: "0 14px 32px rgba(20, 44, 23, 0.06)",
+                  background: "#f3e5f5",
+                  border: "1px solid rgba(106,27,154,0.08)",
+                  boxShadow: "0 14px 32px rgba(74, 20, 140, 0.06)",
                   lineHeight: 0
                 }}
               >
                 <Box
                   component="img"
-                  src="https://www.iitism.ac.in/images/iitism_banner_new.gif"
-                  alt="IIT (ISM) Dhanbad campus"
+                  src="/hero-sign.svg"
+                  alt="IIT (ISM) sign"
                   sx={{
                     width: "100%",
                     height: "auto",
@@ -173,8 +173,8 @@ export function LandingPage() {
                           sx={{
                             width: { xs: 132, md: 170 },
                             height: { xs: 132, md: 170 },
-                            border: "4px solid rgba(31,107,45,0.18)",
-                            bgcolor: index === 0 ? "#edf7e3" : "#dff1d8",
+                            border: "4px solid rgba(106,27,154,0.18)",
+                            bgcolor: index === 0 ? "#f3e5f5" : "#e1bee7",
                             color: "primary.dark",
                             fontSize: 44,
                             fontWeight: 800
@@ -266,7 +266,7 @@ export function LandingPage() {
           </Typography>
           <Grid container spacing={2.2}>
             {recruiterLogos.map((logo) => (
-              <Grid key={logo} size={{ xs: 6, md: 3 }} className="animate-up delay-2">
+              <Grid key={logo.name} size={{ xs: 6, md: 3 }} className="animate-up delay-2">
                 <Box
                   sx={{
                     p: { xs: 2.5, md: 3 },
@@ -277,12 +277,22 @@ export function LandingPage() {
                     textAlign: "center",
                     backgroundColor: "#fff",
                     border: "1px solid rgba(31,107,45,0.08)",
-                    fontSize: { xs: "1.2rem", md: "1.65rem" },
-                    fontWeight: 700,
-                    color: logo === "Qualcomm" ? "#4363d8" : logo === "NVIDIA" ? "#68a300" : "text.primary"
+                    transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 8px 24px rgba(19, 63, 27, 0.1)"
+                    }
                   }}
                 >
-                  {logo}
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "1.2rem", md: "1.65rem" },
+                      fontWeight: 700,
+                      color: "text.primary"
+                    }}
+                  >
+                    {logo.name}
+                  </Typography>
                 </Box>
               </Grid>
             ))}
@@ -294,7 +304,7 @@ export function LandingPage() {
             mt: { xs: 6, md: 8 },
             p: { xs: 3, md: 4 },
             borderRadius: 4,
-            bgcolor: "#163b1d",
+            bgcolor: "#4a148c",
             color: "#fff"
           }}
         >

@@ -168,6 +168,7 @@ export function CompanyProfileSection({ control, setValue }: Props) {
                 name="companyProfile.companyName"
                 control={control}
                 label="Company Name"
+                required
                 fullWidth
               />
             </Grid>

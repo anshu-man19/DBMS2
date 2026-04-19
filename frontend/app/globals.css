@@ -1,11 +1,11 @@
 :root {
   color-scheme: light;
-  --bg-top: #eef7e9;
-  --bg-mid: #f9fcf7;
-  --ink: #19311d;
-  --muted: #627663;
+  --bg-top: #f3e5f5;
+  --bg-mid: #f8f5ff;
+  --ink: #4a148c;
+  --muted: #7b1fa2;
   --panel: #ffffff;
-  --line: rgba(25, 49, 29, 0.08);
+  --line: rgba(74, 20, 140, 0.08);
 }
 
 * {
@@ -18,11 +18,12 @@ body {
   padding: 0;
   min-height: 100%;
   background:
-    radial-gradient(circle at top right, rgba(93, 160, 86, 0.12), transparent 22%),
-    radial-gradient(circle at 15% 15%, rgba(176, 214, 114, 0.16), transparent 18%),
-    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 34%, #f3f8f0 100%);
+    radial-gradient(circle at top right, rgba(186, 104, 200, 0.12), transparent 22%),
+    radial-gradient(circle at 15% 15%, rgba(156, 39, 176, 0.16), transparent 18%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 34%, #f8f5ff 100%);
   color: var(--ink);
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {

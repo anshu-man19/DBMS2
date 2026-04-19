@@ -61,7 +61,7 @@ export function LoginForm() {
       className="hover-lift"
       sx={{
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,249,240,0.96))",
+          "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,245,255,0.96))",
       }}
     >
       <CardContent sx={{ p: { xs: 3, md: 4.5 } }}>

@@ -230,7 +230,7 @@ export function JnfBuilder() {
     router.push(`/jnf/preview?mode=${mode}`);
   };
 
-  const handleTabChange = async (_: React.SyntheticEvent, nextTab: number) => {
+  const handleTabChange = async (nextTab: number) => {
     await persistDraft();
     enqueueSnackbar(`${jnfTabs[activeTab]} auto-saved`, { variant: "success" });
     setActiveTab(nextTab);
@@ -325,7 +325,7 @@ export function JnfBuilder() {
           <CardContent sx={{ p: 0 }}>
             <Tabs
               value={activeTab}
-              onChange={handleTabChange}
+              onChange={(_, nextTab) => handleTabChange(nextTab)}
               variant="scrollable"
               scrollButtons="auto"
             >
@@ -366,8 +366,8 @@ export function JnfBuilder() {
               <DeclarationTab
                 control={control}
                 values={watched}
-                onOpenDedicatedPreview={() => openPreview("dedicated")}
-                onReviewBeforeSubmit={() => openPreview("review")}
+                onSubmit={() => openPreview("review")}
+                formType="jnf"
               />
             ) : null}
           </CardContent>

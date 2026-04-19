@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ReCAPTCHA from "react-google-recaptcha";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
@@ -26,7 +27,7 @@ import {
 import { useCountdown } from "@/hooks/useCountdown";
 
 const stepFields: Array<Array<keyof RegistrationFormValues>> = [
-  ["email", "otp"],
+  ["email", "otp", "captcha"],
   [
     "companyName",
     "recruiterName",
@@ -47,9 +48,14 @@ export function RegistrationWizard() {
   const [submitting, setSubmitting] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otpToken, setOtpToken] = useState<string | null>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
   const countdown = useCountdown(60, otpSent);
 
-  const { control, handleSubmit, trigger, getValues } =
+  const handleCaptchaChange = (token: string | null) => {
+    setValue("captcha", token ?? "");
+  };
+
+  const { control, handleSubmit, trigger, getValues, setValue } =
     useForm<RegistrationFormValues>({
       resolver: zodResolver(registrationSchema),
       defaultValues: registrationDefaultValues,
@@ -202,7 +208,7 @@ export function RegistrationWizard() {
       className="hover-lift"
       sx={{
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,249,240,0.98))",
+          "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,245,255,0.98))",
       }}
     >
       <CardContent sx={{ p: { xs: 3, md: 4.5 } }}>
@@ -268,16 +274,11 @@ export function RegistrationWizard() {
                 </Card>
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography fontWeight={700}>
-                      reCAPTCHA Placeholder
-                    </Typography>
-                    <Typography color="text.secondary">
-                      Ready for backend integration.
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <ReCAPTCHA
+                  ref={captchaRef}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
+                  onChange={handleCaptchaChange}
+                />
               </Grid>
             </Grid>
           ) : null}

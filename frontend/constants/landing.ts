@@ -6,14 +6,14 @@ export const siteStats = [
 ];
 
 export const recruiterLogos = [
-  "Bharat Petroleum",
-  "Qualcomm",
-  "NVIDIA",
-  "TVS",
-  "Tata Steel",
-  "Shell",
-  "Reliance",
-  "Microsoft"
+  { name: "Bharat Petroleum", logo: "/logos/bharat-petroleum.svg" },
+  { name: "Qualcomm", logo: "/logos/qualcomm.svg" },
+  { name: "NVIDIA", logo: "/logos/nvidia.svg" },
+  { name: "TVS", logo: "/logos/tvs.svg" },
+  { name: "Tata Steel", logo: "/logos/tata-steel.svg" },
+  { name: "Shell", logo: "/logos/shell.svg" },
+  { name: "Reliance", logo: "/logos/reliance.svg" },
+  { name: "Microsoft", logo: "/logos/microsoft.svg" }
 ];
 
 export const whyRecruitItems = [
@@ -39,4 +39,10 @@ export const leadershipMessages = [
   }
 ];
 
-export const quickLinks = ["Placement Brochure", "Recruiter Login", "Placement Process", "Demographics", "FAQs"];
+export const quickLinks = [
+  { label: "Placement Brochure", href: "/brochure" },
+  { label: "Recruiter Login", href: "/login" },
+  { label: "Placement Process", href: "/process" },
+  { label: "Demographics", href: "/demographics" },
+  { label: "FAQs", href: "/faqs" }
+];

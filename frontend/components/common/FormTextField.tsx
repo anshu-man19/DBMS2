@@ -7,9 +7,10 @@ import { TextField, TextFieldProps } from "@mui/material";
 type Props<T extends FieldValues> = TextFieldProps & {
   name: FieldPath<T>;
   control: Control<T>;
+  required?: boolean;
 };
 
-export function FormTextField<T extends FieldValues>({ name, control, ...props }: Props<T>) {
+export function FormTextField<T extends FieldValues>({ name, control, required, label, ...props }: Props<T>) {
   const fieldName = String(name);
   const shouldRememberValue = /^(companyProfile|contactDetails|jobProfile|eligibility|salary|selectionProcess|declaration)\./.test(
     fieldName
@@ -38,6 +39,7 @@ export function FormTextField<T extends FieldValues>({ name, control, ...props }
           {...props}
           {...field}
           value={field.value ?? ""}
+          label={required && label ? `${label} *` : label}
           InputLabelProps={{
             ...props.InputLabelProps,
             shrink: props.InputLabelProps?.shrink ?? true

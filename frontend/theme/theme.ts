@@ -6,25 +6,25 @@ export const appTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#1f6b2d",
-      light: "#3f8a4c",
-      dark: "#123f1b",
+      main: "#6a1b9a",
+      light: "#9c4dcc",
+      dark: "#38006b",
       contrastText: "#ffffff"
     },
     secondary: {
-      main: "#dcecc7",
-      dark: "#bfd8a1",
-      contrastText: "#153b1b"
+      main: "#e1bee7",
+      dark: "#ce93d8",
+      contrastText: "#4a148c"
     },
     background: {
-      default: "#f2f7ef",
+      default: "#f3e5f5",
       paper: "#ffffff"
     },
     text: {
-      primary: "#19311d",
-      secondary: "#58705c"
+      primary: "#4a148c",
+      secondary: "#7b1fa2"
     },
-    success: { main: "#1f8a3f" }
+    success: { main: "#7b1fa2" }
   },
   typography: {
     fontFamily: "\"Poppins\", \"Trebuchet MS\", \"Segoe UI\", sans-serif",
@@ -62,7 +62,7 @@ export const appTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: "none",
-          backgroundColor: "rgba(18, 63, 27, 0.95)",
+          backgroundColor: "rgba(106, 27, 154, 0.95)",
           color: "#ffffff",
           backdropFilter: "blur(18px)",
           borderBottom: "1px solid rgba(255,255,255,0.08)"
@@ -84,8 +84,8 @@ export const appTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          border: "1px solid rgba(31, 107, 45, 0.08)",
-          boxShadow: "0 22px 60px rgba(22, 58, 24, 0.08)"
+          border: "1px solid rgba(106, 27, 154, 0.08)",
+          boxShadow: "0 22px 60px rgba(74, 20, 140, 0.08)"
         }
       }
     },
@@ -96,7 +96,7 @@ export const appTheme = createTheme({
           borderRadius: 10
         },
         notchedOutline: {
-          borderColor: "rgba(25, 49, 29, 0.12)"
+          borderColor: "rgba(74, 20, 140, 0.12)"
         }
       }
     },

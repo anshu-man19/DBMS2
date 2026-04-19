@@ -1,7 +1,7 @@
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import XIcon from "@mui/icons-material/X";
-import { Box, Container, Divider, Grid2 as Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Divider, Grid2 as Grid, Link, Stack, Typography } from "@mui/material";
 import { quickLinks } from "@/constants/landing";
 
 export function PublicFooter() {
@@ -10,7 +10,7 @@ export function PublicFooter() {
       component="footer"
       sx={{
         mt: 10,
-        background: "linear-gradient(180deg, #12331b 0%, #0e2414 100%)",
+        background: "linear-gradient(180deg, #4a148c 0%, #38006b 100%)",
         color: "#fff"
       }}
     >
@@ -31,9 +31,9 @@ export function PublicFooter() {
             </Typography>
             <Stack spacing={1.2}>
               {quickLinks.map((item) => (
-                <Typography key={item} sx={{ opacity: 0.82 }}>
-                  {item}
-                </Typography>
+                <Link key={item.label} href={item.href} sx={{ opacity: 0.82, color: "inherit", textDecoration: "none", "&:hover": { opacity: 1 } }}>
+                  {item.label}
+                </Link>
               ))}
             </Stack>
           </Grid>
@@ -42,8 +42,12 @@ export function PublicFooter() {
               Social
             </Typography>
             <Stack direction="row" spacing={1.5}>
-              <LinkedInIcon />
-              <XIcon />
+              <Link href="https://linkedin.com/company/iitism" target="_blank" sx={{ color: "inherit" }}>
+                <LinkedInIcon />
+              </Link>
+              <Link href="https://twitter.com/iitism" target="_blank" sx={{ color: "inherit" }}>
+                <XIcon />
+              </Link>
             </Stack>
           </Grid>
           <Grid size={{ xs: 12, md: 2.5 }}>
@@ -51,7 +55,9 @@ export function PublicFooter() {
               Contact
             </Typography>
             <Stack spacing={1.1}>
-              <Typography sx={{ opacity: 0.82 }}>cdc@iitism.ac.in</Typography>
+              <Link href="mailto:cdc@iitism.ac.in" sx={{ opacity: 0.82, color: "inherit", textDecoration: "none", "&:hover": { opacity: 1 } }}>
+                cdc@iitism.ac.in
+              </Link>
               <Typography sx={{ opacity: 0.82 }}>+91 326 223 5444</Typography>
               <Stack direction="row" spacing={1} alignItems="flex-start">
                 <PlaceOutlinedIcon sx={{ mt: 0.25, fontSize: 18 }} />

@@ -10,19 +10,11 @@ import { JnfFormValues } from "@/features/jnf/schemas";
 type Props = {
   control: Control<JnfFormValues>;
   values: JnfFormValues;
-  onOpenDedicatedPreview: () => void;
-  onReviewBeforeSubmit: () => void;
+  onSubmit: () => void;
+  formType?: "jnf" | "inf";
 };
 
-export function DeclarationTab({ control, values, onOpenDedicatedPreview, onReviewBeforeSubmit }: Props) {
-  const canReview = Boolean(
-    values.declaration.agreements.every(Boolean) &&
-      values.declaration.signatoryName.trim() &&
-      values.declaration.signatoryDesignation.trim() &&
-      values.declaration.signedDate.trim() &&
-      values.declaration.typedSignature.trim()
-  );
-
+export function DeclarationTab({ control, values, onSubmit, formType = "jnf" }: Props) {
   return (
     <Stack spacing={2.5}>
       {declarationItems.map((item, index) => (
@@ -80,12 +72,9 @@ export function DeclarationTab({ control, values, onOpenDedicatedPreview, onRevi
           />
         </Grid>
       </Grid>
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-        <Button variant="outlined" onClick={onOpenDedicatedPreview}>
-          Open Dedicated Preview Page
-        </Button>
-        <Button variant="contained" onClick={onReviewBeforeSubmit} disabled={!canReview}>
-          Review Before Submit
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="flex-end">
+        <Button variant="contained" onClick={onSubmit}>
+          Submit {formType.toUpperCase()}
         </Button>
       </Stack>
     </Stack>

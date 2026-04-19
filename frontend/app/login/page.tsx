@@ -49,7 +49,7 @@ export default async function LoginPage() {
                   p: 3,
                   borderRadius: 6,
                   bgcolor: "rgba(255,255,255,0.82)",
-                  border: "1px solid rgba(31,107,45,0.08)",
+                  border: "1px solid rgba(106,27,154,0.08)",
                 }}
               >
                 <Stack direction="row" spacing={2} alignItems="center">
@@ -67,11 +67,9 @@ export default async function LoginPage() {
                     <LoginRoundedIcon />
                   </Box>
                   <Box>
-                    <Typography fontWeight={700}>
-                      Demo access enabled
-                    </Typography>
+                    <Typography fontWeight={700}>Secure Portal Access</Typography>
                     <Typography color="text.secondary">
-                      Use the sample credentials shown inside the form.
+                      Authenticated recruiters can submit JNFs and track applications.
                     </Typography>
                   </Box>
                 </Stack>
